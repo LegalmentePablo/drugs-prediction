@@ -66,10 +66,19 @@ drugs-prediction/
 - **Aplicación Web** (futuro): Streamlit
 - **Control de versiones**: Git, GitHub con flujo de trabajo colaborativo
 
-### 👥 Equipo de Desarrollo
+### Equipo de Desarrollo
 - **Ramas de desarrollo**: 
   - `dev-pablo`
   - `dev-amaury`
+- **Asignaciones de Commits**:
+  - Commit 2: Pablo
+  - Commit 3: Encoding y transformaciones (Amaury)
+  - Commit 4: Modelos avanzados ML (Pablo)
+  - Commit 5: Optimización final (Amaury)
+  - Commit 6: Interpretabilidad (Pablo)
+  - Commit 7: App Streamlit (Amaury)
+  - Commit 8: Validación externa (Pablo)
+  - Commit 9: Documentación final (Amaury)
 - **Metodología**: 
   - Commits incrementales con notebooks modulares
   - Pull Requests para integración a `main`
