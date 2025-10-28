@@ -15,8 +15,11 @@ drugs-prediction/
 │   └── g_capitulos.csv     # Dataset ENCSPA 2019
 |   └── variables.pdf       # PDF con toda la información sobre las variables
 ├── notebooks/              # Análisis exploratorio
-│   ├── 01_EDA_ENCSPA_2019.ipynb        # Análisis Exploratorio de Datos
-│   └── 02_preprocesamiento_datos.ipynb  # Preprocesamiento y Limpieza
+│   ├── 01_EDA_ENCSPA_2019.ipynb
+│   ├── 02_preprocesamiento_datos.ipynb
+│   ├── 03_encoding_transformaciones.ipynb
+│   ├── 04_modelos_avanzados.ipynb
+│   └── 05_optimizacion_modelo_final.ipynb
 ├── docs/                   # Documentación
 └── tests/                  # Pruebas unitarias
 ```
