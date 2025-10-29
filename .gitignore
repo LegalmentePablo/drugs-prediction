@@ -1,1 +1,24 @@
+# Python
 __pycache__/
+*.py[cod]
+*.pyc
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Modelos entrenados (muy pesados para GitHub)
+models/*.pkl
+*.pkl
+
+# Virtual environments
+venv/
+env/
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
