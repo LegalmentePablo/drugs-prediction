@@ -12,16 +12,25 @@ Este proyecto utiliza la Encuesta Nacional de Consumo de Sustancias Psicoactivas
 ```
 drugs-prediction/
 ├── data/                    # Datos del proyecto
-│   └── g_capitulos.csv     # Dataset ENCSPA 2019
-|   └── variables.pdf       # PDF con toda la información sobre las variables
+│   ├── g_capitulos.csv     # Dataset ENCSPA 2019
+│   ├── variables.pdf       # PDF con toda la información sobre las variables
+│   └── processed/          # Datos procesados y preprocesador
+│       ├── preprocessor.joblib
+│       └── feature_names.pkl
+├── models/                  # Modelos entrenados
+│   ├── mejor_modelo_final.pkl
+│   └── metadatos_modelo_final.json
 ├── notebooks/              # Análisis exploratorio
 │   ├── 01_EDA_ENCSPA_2019.ipynb
 │   ├── 02_preprocesamiento_datos.ipynb
 │   ├── 03_encoding_transformaciones.ipynb
 │   ├── 04_modelos_avanzados.ipynb
 │   └── 05_optimizacion_modelo_final.ipynb
-├── docs/                   # Documentación
-└── tests/                  # Pruebas unitarias
+├── app.py                  # Aplicación web Streamlit
+├── utils.py                # Funciones auxiliares
+├── config.py               # Configuración de la aplicación
+├── requirements.txt        # Dependencias del proyecto
+└── README.md              # Documentación del proyecto
 ```
 
 ### Fuente de los Datos
@@ -64,9 +73,11 @@ drugs-prediction/
 
 ### Tecnologías Utilizadas
 - **Análisis y EDA**: Python, Pandas, NumPy
-- **Visualización Avanzada**: Plotly
+- **Machine Learning**: Scikit-learn, XGBoost, Random Forest
+- **Interpretabilidad**: SHAP, LIME
+- **Visualización Avanzada**: Plotly, Matplotlib, Seaborn
 - **Notebooks Interactivos**: Jupyter Lab/Notebook
-- **Aplicación Web** (futuro): Streamlit
+- **Aplicación Web**: Streamlit
 - **Control de versiones**: Git, GitHub con flujo de trabajo colaborativo
 
 ### Equipo de Desarrollo
@@ -86,6 +97,87 @@ drugs-prediction/
   - Commits incrementales con notebooks modulares
   - Pull Requests para integración a `main`
   - Revisión de código y sincronización de variables
+
+## Aplicación Web Streamlit
+
+### Características de la Aplicación
+La aplicación web desarrollada en Streamlit proporciona una interfaz interactiva para:
+
+1. **Predicción Individual**: 
+   - Formulario intuitivo para ingresar factores de riesgo
+   - Predicción en tiempo real del riesgo de consumo
+   - Explicaciones interpretables con SHAP
+
+2. **Dashboard General**:
+   - Visualizaciones interactivas del dataset
+   - Estadísticas descriptivas por variables
+   - Análisis de correlaciones
+
+3. **Predicción por Lotes**:
+   - Carga de archivos CSV para múltiples predicciones
+   - Descarga de resultados procesados
+   - Plantilla CSV para facilitar el formato
+
+4. **Simulador de Escenarios**:
+   - Análisis de sensibilidad de variables
+   - Recomendaciones personalizadas
+   - Comparación de diferentes perfiles de riesgo
+
+5. **Información del Modelo**:
+   - Métricas de rendimiento
+   - Descripción de variables
+   - Metodología utilizada
+
+### Instalación y Ejecución
+
+#### Requisitos Previos
+- Python 3.8 o superior
+- pip (gestor de paquetes de Python)
+
+#### Instalación de Dependencias
+```bash
+# Clonar el repositorio
+git clone <url-del-repositorio>
+cd drugs-prediction
+
+# Instalar dependencias
+pip install -r requirements.txt
+```
+
+#### Ejecución de la Aplicación
+```bash
+# Ejecutar la aplicación Streamlit
+streamlit run app.py
+```
+
+La aplicación estará disponible en:
+- **URL Local**: http://localhost:8501
+- **URL de Red**: http://[tu-ip]:8501
+
+#### Comandos Adicionales
+```bash
+# Ejecutar en un puerto específico
+streamlit run app.py --server.port 8502
+
+# Ejecutar con configuración personalizada
+streamlit run app.py --server.headless true
+
+# Ver ayuda de Streamlit
+streamlit --help
+```
+
+### Estructura de Archivos de la Aplicación
+- **`app.py`**: Archivo principal de la aplicación Streamlit
+- **`utils.py`**: Funciones auxiliares para procesamiento y visualización
+- **`config.py`**: Configuración y constantes de la aplicación
+- **`requirements.txt`**: Lista de dependencias necesarias
+
+### Uso de la Aplicación
+1. **Acceder a la aplicación** en http://localhost:8501
+2. **Seleccionar una pestaña** según el tipo de análisis deseado
+3. **Ingresar datos** usando los controles interactivos
+4. **Visualizar resultados** y explicaciones en tiempo real
+5. **Descargar resultados** cuando sea aplicable
 
 ---
 *Proyecto desarrollado como parte del curso de Ciencia de Datos e Inteligencia Artificial*
