@@ -11,21 +11,24 @@ Este proyecto utiliza la Encuesta Nacional de Consumo de Sustancias Psicoactivas
 ### Estructura del Proyecto
 ```
 drugs-prediction/
-├── data/                    # Datos del proyecto
+├── .gitignore              # Exclusión de archivos pesados (.pkl)
+├── data/                   # Datos del proyecto
 │   ├── g_capitulos.csv     # Dataset ENCSPA 2019
 │   ├── variables.pdf       # PDF con toda la información sobre las variables
 │   └── processed/          # Datos procesados y preprocesador
 │       ├── preprocessor.joblib
 │       └── feature_names.pkl
-├── models/                  # Modelos entrenados
-│   ├── mejor_modelo_final.pkl
-│   └── metadatos_modelo_final.json
-├── notebooks/              # Análisis exploratorio
+├── models/                 # Modelos entrenados y metadatos
+│   ├── mejor_modelo_final.pkl          # Modelo RF final (excluido por .gitignore, debido a su tamaño no permitido en github)
+│   ├── metadatos_modelo_final.json     # Métricas y configuración del modelo
+│   └── metadatos_randomforest.json     # Metadatos adicionales
+├── notebooks/              # Análisis completo paso a paso
 │   ├── 01_EDA_ENCSPA_2019.ipynb
 │   ├── 02_preprocesamiento_datos.ipynb
 │   ├── 03_encoding_transformaciones.ipynb
 │   ├── 04_modelos_avanzados.ipynb
-│   └── 05_optimizacion_modelo_final.ipynb
+│   ├── 05_optimizacion_modelo_final.ipynb
+│   └── 06_interpretabilidad_modelos.ipynb    # NUEVO: Análisis SHAP
 ├── app.py                  # Aplicación web Streamlit
 ├── utils.py                # Funciones auxiliares
 ├── config.py               # Configuración de la aplicación
@@ -71,10 +74,59 @@ drugs-prediction/
 - **Cantidades** (Variables numéricas): 
   - Cantidad familiares (G_01_A), Cantidad amigos (G_02_A)
 
+### Flujo de Desarrollo Completo
+1. **`01_EDA_ENCSPA_2019.ipynb`**: Análisis exploratorio y definición de variables
+2. **`02_preprocesamiento_datos.ipynb`**: Limpieza y preparación de datos
+3. **`03_encoding_transformaciones.ipynb`**: Encoding categóricas + transformaciones
+4. **`04_modelos_avanzados.ipynb`**: Modelos ML con 5-fold CV + análisis comparativo
+5. **`05_optimizacion_modelo_final.ipynb`**: Optuna tuning + ensemble methods + selección final
+6. **`06_interpretabilidad_modelos.ipynb`**: **NUEVO**
+   - **SHAP Analysis**: TreeExplainer para explicabilidad del modelo Random Forest
+   - **Feature Importance**: Análisis nativo + Permutation Importance 
+   - **Visualizaciones Plotly**: Gráficos interactivos profesionales
+   - **Casos específicos**: Alto riesgo, falsos positivos/negativos
+   - **Insights para políticas**: Variables más predictivas identificadas
+
+### Rendimiento del Modelo Final
+- **Algoritmo seleccionado**: Random Forest (mejor F1-Score tras comparación)
+- **Métricas en test set**:
+  - **F1-Score**: 0.662
+  - **ROC-AUC**: 0.918  
+  - **Accuracy**: 0.875
+  - **Precision**: 0.585
+  - **Recall**: 0.762
+- **Metodología**: 5-fold CV + Optuna optimization (220 trials) + SMOTE balancing
+- **Dataset balanceado**: 31,442 muestras entrenamiento (50% balance), 4,686 test (16.1% positivos)
+
+### Hallazgos Principales del Análisis
+#### Variables más Predictivas (Feature Importance)
+1. **Curiosidad por Probar** (43.1%) - Factor psicológico dominante
+2. **Tuvo Oportunidad de Probar** (15.4%) - Factor situacional clave
+3. **Disposición a Consumir** (11.7%) - Factor actitudinal relevante
+
+#### Categorización de Factores de Riesgo
+- **Actitudes Personales**: 70.2% de importancia total
+- **Accesibilidad**: 12.6% de importancia
+- **Exposición**: 12.5% de importancia  
+- **Entorno Social**: 5.8% de importancia
+
+**Patrón clave identificado**: Las actitudes individuales superan 12x al entorno social como predictor, sugiriendo que el consumo es más una decisión personal influenciada por curiosidad que por presión social.
+
+#### Umbrales de Riesgo para Intervención
+- **Alto riesgo**: Probabilidad > 0.833 (Percentil 90)
+- **Riesgo crítico**: Probabilidad > 0.917 (Percentil 95)
+- **Recomendación**: Monitorear casos con probabilidad > 0.7 para intervención temprana
+
+### ⚠️ Nota sobre Modelos Entrenados
+Los archivos `.pkl` de modelos entrenados (>100MB) están excluidos del repositorio via `.gitignore` por las limitaciones de GitHub. Para reproducir:
+1. Ejecutar notebooks 04-05 para entrenar modelos desde cero
+2. Los metadatos completos están disponibles en `models/metadatos_modelo_final.json`
+3. El preprocesador está guardado en `data/processed/preprocessor.joblib`
+
 ### Tecnologías Utilizadas
 - **Análisis y EDA**: Python, Pandas, NumPy
 - **Machine Learning**: Scikit-learn, XGBoost, Random Forest
-- **Interpretabilidad**: SHAP, LIME
+- **Interpretabilidad**: SHAP
 - **Visualización Avanzada**: Plotly, Matplotlib, Seaborn
 - **Notebooks Interactivos**: Jupyter Lab/Notebook
 - **Aplicación Web**: Streamlit
@@ -137,7 +189,7 @@ La aplicación web desarrollada en Streamlit proporciona una interfaz interactiv
 #### Instalación de Dependencias
 ```bash
 # Clonar el repositorio
-git clone <url-del-repositorio>
+git clone https://github.com/LegalmentePablo/am-pa-drugs-prediction.git
 cd drugs-prediction
 
 # Instalar dependencias
